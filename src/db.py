@@ -9,7 +9,7 @@ class DataBase:
         self.password = password
         self.database = database
 
-    def execute(self, sql: str):
+    def fetchall(self, sql: str):
         try:
             with connect(
                 host=self.host,
@@ -19,7 +19,37 @@ class DataBase:
             ) as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(sql)
-                    return  cursor.fetchall()
+                    return cursor.fetchall()
+        except Error as e:
+            print(e)
+
+    def commit(self, sql: str):
+        try:
+            with connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                database=self.database,
+            ) as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+                    connection.commit()
+        except Error as e:
+            print(e)
+
+    def callproc(self, proc: str, args: list):
+        try:
+            with connect(
+                    host=self.host,
+                    user=self.user,
+                    password=self.password,
+                    database=self.database,
+            ) as connection:
+                with connection.cursor() as cursor:
+                    cursor.callproc(proc, args)
+                    cursor.stored_results()
+                    for result in cursor.stored_results():
+                        print(result.fetchall())
         except Error as e:
             print(e)
 

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from src.db import db
+from db import db
 
 app = Flask(__name__)
 
@@ -15,8 +15,12 @@ def registration():
     if blank_fields := {'F', 'I', 'O', 'car', 'login', 'password', 'phone'} - set(data.keys()):
         return jsonify({'error': f'Поля {blank_fields} не заполнены'}), 400
 
-    if db.execute(f"SELECT * FROM clients WHERE login='{data['login']}';"):
+    if db.fetchall(f"SELECT * FROM clients WHERE login='{data['login']}';"):
         return jsonify({'error': 'Пользователь с таким логином существует'}), 400
+
+    r = db.commit(f"CALL add_client('{data['F']}', '{data['I']}', '{data['O']}', '{data['car']}', '{data['login']}', " +
+    f"'{data['password']}', '{data['phone']}');")
+    return jsonify({'message': 'Пользователь успешно зарегистрирован', 'test': r}), 200
 
 
 if __name__ == '__main__':
