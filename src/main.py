@@ -43,5 +43,23 @@ def login():
     return jsonify({'id': user[0], 'F': user[1], 'I': user[2], 'O': user[3], 'car': user[4], 'phone': user[7]}), 200
 
 
+@app.route('/api/v1/contracts/<int:user_id>', methods=['GET'])
+def user_contracts(user_id: int):
+    contracts = db.callproc('get_client_contracts', [user_id, ])
+    result = []
+    for contract in contracts:
+        result.append({
+            'id': contract[0],
+            'date_start': contract[1],
+            'date_finish': contract[2],
+            'name': contract[3],
+            'fio_small': contract[4],
+            'services': {
+                'name': 'Твоя процедура не работает, почини',
+                'cost': 1023
+            }
+        })
+    return jsonify(result), 200
+
 if __name__ == '__main__':
     app.run(threaded=True, port=5000)

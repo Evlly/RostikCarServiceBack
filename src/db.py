@@ -63,7 +63,7 @@ class DataBase:
                     cursor.callproc(proc, args)
                     cursor.stored_results()
                     for result in cursor.stored_results():
-                        print(result.fetchall())
+                        return result.fetchall()
         except Error as e:
             print(e)
 
