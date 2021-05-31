@@ -23,6 +23,20 @@ class DataBase:
         except Error as e:
             print(e)
 
+    def fetcone(self, sql: str):
+        try:
+            with connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                database=self.database,
+            ) as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+                    return cursor.fetcone()
+        except Error as e:
+            print(e)
+
     def commit(self, sql: str):
         try:
             with connect(
