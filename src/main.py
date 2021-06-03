@@ -40,7 +40,7 @@ def login():
         return jsonify({'error': 'Неправильный логин или пароль'}), 400
 
     user = user[0]
-    return jsonify({'id': user[0], 'F': user[1], 'I': user[2], 'O': user[3], 'car': user[4], 'phone': user[7]}), 200
+    return jsonify({'user':{'id': user[0], 'F': user[1], 'I': user[2], 'O': user[3], 'car': user[4], 'phone': user[7]}}), 200
 
 
 @app.route('/api/v1/contracts/<int:user_id>', methods=['GET'])
