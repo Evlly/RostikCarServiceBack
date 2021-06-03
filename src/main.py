@@ -54,10 +54,12 @@ def user_contracts(user_id: int):
             'date_finish': contract[2],
             'name': contract[3],
             'fio_small': contract[4],
-            'services': {
-                'name': 'Твоя процедура не работает, почини',
-                'cost': 1023
-            }
+            'services': [
+                {
+                    'name': x[1],
+                    'cost': x[2]
+                } for x in db.callproc('get_soc_client', [contract[0], ]) if len(x) == 3
+            ]
         })
     return jsonify(result), 200
 
