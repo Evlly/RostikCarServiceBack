@@ -63,5 +63,18 @@ def user_contracts(user_id: int):
         })
     return jsonify(result), 200
 
+
+@app.route('/api/v1/all_services', methods=['GET'])
+def all_services():
+    result = []
+    for service in db.fetchall('SELECT * FROM view_price_back'):
+        result.append({
+            "id": service[0],
+            "name_ts": service[1].strip(),
+            "name_s": service[2].strip(),
+            "cost": service[3],
+        })
+    return jsonify(result)
+
 if __name__ == '__main__':
     app.run(threaded=True, port=5000)
