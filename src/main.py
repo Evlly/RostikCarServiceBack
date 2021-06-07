@@ -86,8 +86,8 @@ def all_services():
     for service in db.fetchall('SELECT * FROM view_price_back'):
         result.append({
             "id": service[0],
-            "name_ts": service[1].strip(),
-            "name_s": service[2].strip(),
+            "type": service[1].strip(),
+            "name": service[2].strip(),
             "cost": service[3],
         })
     return jsonify(result)
