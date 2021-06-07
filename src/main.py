@@ -65,6 +65,21 @@ def user_contracts(user_id: int):
     return jsonify(result), 200
 
 
+@app.route('/api/v1/contracts', methods=['POST'])
+def create_user_contracts():
+    data = request.get_json()
+
+    sql = f'''INSERT INTO contract (id_client, date_start, date_finish) VALUES ({data["id_client"]}, '{data["date_start"]}', '{data["date_finish"]}')'''
+    db.commit(sql)
+    id_contract = db.fetchall('SELECT id FROM contract ORDER BY id DESC LIMIT 1')[0][0]
+
+    for price in data['id_price']:
+        sql = f'INSERT INTO services_on_contract (id_price, id_contract) VALUES ({price["id"]}, {id_contract})'
+        db.commit(sql)
+
+    return jsonify({'msg': 'ok'})
+
+
 @app.route('/api/v1/all_services', methods=['GET'])
 def all_services():
     result = []
