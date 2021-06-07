@@ -3,6 +3,7 @@ from hashlib import md5
 from flask import Flask, jsonify, request
 
 from src.db import db
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -50,8 +51,8 @@ def user_contracts(user_id: int):
     for contract in contracts:
         result.append({
             'id': contract[0],
-            'date_start': contract[1],
-            'date_finish': contract[2],
+            'date_start': datetime.strftime(contract[1], '%d.%m.%Y'),
+            'date_finish': datetime.strftime(contract[2], '%d.%m.%Y'),
             'name': contract[3],
             'fio_small': contract[4],
             'services': [
