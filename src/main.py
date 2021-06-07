@@ -69,7 +69,7 @@ def user_contracts(user_id: int):
 def create_user_contracts():
     data = request.get_json()
 
-    sql = f'''INSERT INTO contract (id_client, date_start, date_finish) VALUES ({data["id_client"]}, '{data["date_start"]}', '{data["date_finish"]}')'''
+    sql = f'''INSERT INTO contract (id_client, date_start) VALUES ({data["id_client"]}, '{data["date_start"]}')'''
     db.commit(sql)
     id_contract = db.fetchall('SELECT id FROM contract ORDER BY id DESC LIMIT 1')[0][0]
 
