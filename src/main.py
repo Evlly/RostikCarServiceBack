@@ -52,7 +52,7 @@ def user_contracts(user_id: int):
         result.append({
             'id': contract[0],
             'date_start': datetime.strftime(contract[1], '%d.%m.%Y'),
-            'date_finish': datetime.strftime(contract[2], '%d.%m.%Y'),
+            'date_finish': datetime.strftime(contract[2], '%d.%m.%Y') if contract[2] else '',
             'name': contract[3],
             'fio_small': contract[4],
             'services': [
